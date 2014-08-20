@@ -78,6 +78,39 @@ namespace ProtoFFITests
         }
 
         [Test]
+        public void TestDefaultArgument_Point()
+        {
+            string code = @"                import(DummyPoint from ""FFITarget.dll"");                 d = DummyPoint.ByCoordinatesDefaultArgument(10);
+                    x = d.X;                    
+                    y = d.Y;
+                    z = d.Z;  
+                ";
+            theTest.RunScriptSource(code);
+            var methods = theTest.GetMethods("DummyPoint", "ByCoordinatesDefaultArgument");
+
+            theTest.Verify("x", 10);
+            theTest.Verify("y", 10);
+            theTest.Verify("z", 10);
+        }
+
+        [Test]
+        public void TestChangeDefaultArgument_Point()
+        {
+            string code = @"                import(DummyPoint from ""FFITarget.dll"");                 d = DummyPoint.ByCoordinatesDefaultArgument(10, 20);
+                    x = d.X;                    
+                    y = d.Y;
+                    z = d.Z;  
+                ";
+            theTest.RunScriptSource(code);
+            var methods = theTest.GetMethods("DummyPoint", "ByCoordinatesDefaultArgument");
+
+            theTest.Verify("x", 10);
+            theTest.Verify("y", 20);
+            theTest.Verify("z", 10);
+        }
+
+
+        [Test]
         public void TestAcceptIEnumerablOfIList()
         {
             string code = @"                import(DummyCollection from ""FFITarget.dll"");                a = {1..5, 6..10};                b = DummyCollection.AcceptIEnumerablOfIList(a);                ";

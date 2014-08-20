@@ -19,6 +19,19 @@ namespace FFITarget
                     Y = y,
                     Z = z
                 };
+            
+
+            return ret;
+        }
+
+        public static DummyPoint ByCoordinatesDefaultArgument(double x, double y = 10, double z = 10)
+        {
+            DummyPoint ret = new DummyPoint()
+            {
+                X = x,
+                Y = y,
+                Z = z
+            };
 
             return ret;
         }
@@ -35,6 +48,11 @@ namespace FFITarget
         }
 
         public DummyPoint Translate(double dx, double dy, double dz)
+        {
+            return DummyPoint.ByCoordinates(X + dx, Y + dy, Z + dz);
+        }
+
+        public DummyPoint TranslateDefaultArgument(double dx, double dy = 10, double dz = 10)
         {
             return DummyPoint.ByCoordinates(X + dx, Y + dy, Z + dz);
         }
