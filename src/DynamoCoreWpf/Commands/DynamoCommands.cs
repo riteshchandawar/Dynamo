@@ -164,6 +164,10 @@ namespace Dynamo.ViewModels
                     MakeConnectionImpl(command as DynamoModel.MakeConnectionCommand);
                     break;
 
+                case "UndoRedoCommand":
+                    UndoRedoImpl(command as DynamoModel.UndoRedoCommand);
+                    break;
+
                 case "OpenFileCommand":
                 case "RunCancelCommand":
                 case "ForceRunCancelCommand":
@@ -175,7 +179,6 @@ namespace Dynamo.ViewModels
                 case "SelectInRegionCommand":
                 case "DragSelectionCommand":
                 case "DeleteModelCommand":
-                case "UndoRedoCommand":
                 case "ModelEventCommand":
                 case "UpdateModelValueCommand":
                 case "ConvertNodesToCodeCommand":
@@ -222,9 +225,22 @@ namespace Dynamo.ViewModels
                         nodeId, command.PortIndex, command.Type);
                     break;
 
+                case DynamoModel.MakeConnectionCommand.Mode.EndAndStartCtrlConnection:
+                    CurrentSpaceViewModel.EndAndStartCtrlConnection(
+                        nodeId, command.PortIndex, command.Type);
+                    break;
+
                 case DynamoModel.MakeConnectionCommand.Mode.Cancel:
                     CurrentSpaceViewModel.CancelConnection();
                     break;
+            }
+        }
+
+        private void UndoRedoImpl(DynamoModel.UndoRedoCommand command)
+        {
+            if (command.CmdOperation == DynamoModel.UndoRedoCommand.Operation.Undo)
+            {
+                CurrentSpaceViewModel.CancelActiveState();
             }
         }
 
